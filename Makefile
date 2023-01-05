@@ -11,7 +11,7 @@ endif
 #CC=	clang
 COPT=	-Wall -g -std=gnu99
 CC=	gcc
-CXX=g++
+CXX=    g++
 #MACCOPT=$(COPT) -framework CoreFoundation -framework IOKit
 MACINTELCOPT:=$(COPT) -target x86_64-apple-macos10.14 \
                       $(addprefix -I, $(MAC_INTEL_CONAN_INCLUDE_DIRS)) \
@@ -236,7 +236,8 @@ format:
 	find . -type d \( $${submodules:3} \) -prune -false -o \( -iname '*.h' -o -iname '*.c' -o -iname '*.cpp' \) -print | xargs clang-format --style=file -i --verbose
 
 clean:	cleantest
-	rm -f src/tools/version.c $(SDCARD_FILES) $(TOOLS) $(UTILITIES) $(TESTS) $(UTILDIR)/*.prg $(TESTDIR)/*.o $(EXAMPLEDIR)/*.o m65tools-*.7z
+	rm -f src/tools/version.c $(SDCARD_FILES) $(TOOLS) $(UTILITIES) $(TESTS) $(UTILDIR)/*.prg $(TESTDIR)/*.o $(EXAMPLEDIR)/*.o $(BINDIR)/*.osx conanbuildinfo* graph_info.json conan.lock m65tools-*.7z
+	rm -rf $(BINDIR)/*.dSYM
 
 cleanall:	clean
 	for path in `git submodule | awk '{ print "./" $$2 }'`; do \
@@ -272,12 +273,12 @@ test.exe: $(GTESTFILESEXE)
 ## Prerequisites
 ##
 conanbuildinfo_macos_intel.mak: conanfile.txt conan/*
-	conan install conanfile.txt --build=missing -pr:h=default -pr:h=conan/profile_macos_10.14_intel
+	conan install conanfile.txt --build=missing -pr:b=default -pr:h=default -pr:h=conan/profile_macos_10.14_intel
 	sed 's/CONAN_/MAC_INTEL_CONAN_/g' conanbuildinfo.mak > conanbuildinfo_macos_intel.mak
 	rm conanbuildinfo.*
 
 conanbuildinfo_macos_arm.mak: conanfile.txt conan/*
-	conan install conanfile.txt --build=missing -pr:h=default -pr:h=conan/profile_macos_11_arm
+	conan install conanfile.txt --build=missing -pr:b=default -pr:h=default -pr:h=conan/profile_macos_11_arm
 	sed 's/CONAN_/MAC_ARM_CONAN_/g' conanbuildinfo.mak > conanbuildinfo_macos_arm.mak
 	rm conanbuildinfo.*
 
