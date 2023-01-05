@@ -10,9 +10,10 @@ matrix:
   include:
     - name: MacOS native compilation
       os: osx
-      osx_image: xcode13.1
+      osx_image: xcode14.1
       before_script:
-      - HOMEBREW_NO_AUTO_UPDATE=1 brew install libusb libpng zlib cc65 p7zip
+      - HOMEBREW_NO_AUTO_UPDATE=1 brew install conan cc65 p7zip
+      - conan --version
       script:
       - make USE_LOCAL_CC65=1 arcmac
       before_deploy:
