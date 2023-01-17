@@ -39,4 +39,4 @@ matrix:
         on:
           tags: false
           all_branches: true
-          #condition: $TRAVIS_BRANCH =~ ^jenkins_test$
+          condition: $TRAVIS_BRANCH =~ ^jenkins_test$
